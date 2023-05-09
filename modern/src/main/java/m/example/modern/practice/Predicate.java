@@ -1,0 +1,6 @@
+package m.example.modern.practice;
+
+@FunctionalInterface
+public interface Predicate<T> {
+    boolean test(T t);
+}
