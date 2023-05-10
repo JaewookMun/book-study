@@ -1,4 +1,4 @@
-package m.example.modern.date;
+package m.example.modern.date.quiz;
 
 import java.time.LocalDate;
 
