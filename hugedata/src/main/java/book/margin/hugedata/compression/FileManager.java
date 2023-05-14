@@ -51,7 +51,6 @@ public class FileManager {
      */
     private static TagData readValue(String line) {
         TagData tagData = new TagData();
-        System.out.println("line = " + line);
         String[] sections = line.split("\t");
 
         tagData.setTagName(sections[0]);
@@ -66,24 +65,65 @@ public class FileManager {
         OutputStreamWriter out = null;
 
         try {
-            out = new OutputStreamWriter(new FileOutputStream(compressedFile, false));
+            FileOutputStream outputStream = new FileOutputStream(compressedFile, false);
+//            out = new OutputStreamWriter(outputStream);
 
             for (TagData tagData : tagDataList) {
-                StringBuilder sb = new StringBuilder();
-                sb.append(tagData.getTagName()).append("\t");
-                for (Integer entryId : tagData.getEntryIds()) {
-                    sb.append(VByteCode.encode(entryId)).append(",");
-                }
-                String line = sb.substring(0, sb.length() - 1);
-                out.write(line + "\n");
 
-                System.out.println("line = " + line);
+                // todo : tag name을 추가해서 암호화 할 수 있는 기능 추가
+//                out.write(tagData.getTagName());
+                byte[] encode = VByteCode.encode(tagData.getEntryIds());
+                outputStream.write(encode);
+
+                outputStream.write(VByteCode.CARRIAGE_RETURN);
             }
+            outputStream.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
 
         } finally {
             if(out != null) out.close();
         }
+    }
+
+    public static void recoverCompressedFile(File compressed) throws IOException {
+        FileInputStream in = new FileInputStream(compressed);
+
+        byte[] data = in.readAllBytes();
+        // todo : byte 데이터를 int 데이터로 읽어올 때 깨짐 현상 방지기능 추가
+        VByteCode.decode(data);
+
+
+
+//        BufferedReader br = null;
+//        try {
+//            br = new BufferedReader(new InputStreamReader(new FileInputStream(compressed)));
+//
+//            String line = br.readLine();
+//            for( ; Optional.ofNullable(line).isPresent(); ) {
+//                tagDataList.add(readValue(line));
+//
+//                line = br.readLine();
+//            }
+//
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } finally {
+//            br.close();
+//        }
+    }
+
+    private static String readCompressedValue(String line) {
+//        TagData tagData = new TagData();
+        String[] sections = line.split("\t");
+
+        String tagName = sections[0];
+
+        int[] decodes = VByteCode.decode(sections[1].getBytes());
+        for (int decode : decodes) {
+            System.out.println("decode = " + decode);
+        }
+
+        return tagName;
     }
 }
