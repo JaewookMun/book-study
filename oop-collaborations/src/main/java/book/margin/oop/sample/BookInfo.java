@@ -1,4 +1,5 @@
 package book.margin.oop.sample;
 
-public class SystemManager {
+public class BookInfo {
+
 }
