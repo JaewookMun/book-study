@@ -1,4 +1,4 @@
-package com.github.jaewookmun.tdd.ch05;
+package com.github.jaewookmun.tdd.ch05_junit5;
 
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
