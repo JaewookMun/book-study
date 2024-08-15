@@ -10,6 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.github.jaewookmun.tdd.ch07_mock.autodebit.dto.CardValidity.INVALID;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AutoDebitRegister_Stub_Test {
     private AutoDebitRegister register;
@@ -30,6 +31,16 @@ class AutoDebitRegister_Stub_Test {
         AutoDebitReq req = new AutoDebitReq("user1", "111122223333");
         RegisterResult result = register.register(req);
 
-        Assertions.assertEquals(INVALID, result);
+        assertEquals(INVALID, result);
+    }
+
+    @Test
+    void theftCard() {
+        stubValidator.setTheftNo("1234567890123456");
+
+        AutoDebitReq req = new AutoDebitReq("user1", "1234567890123456");
+        RegisterResult result = this.register.register(req);
+
+        assertEquals(CardValidity.THEFT, result.getValidity());
     }
 }
