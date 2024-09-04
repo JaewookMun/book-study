@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group 'book'
+group 'com.github.jaewookmun'
 version '1.0-SNAPSHOT'
 
 repositories {
