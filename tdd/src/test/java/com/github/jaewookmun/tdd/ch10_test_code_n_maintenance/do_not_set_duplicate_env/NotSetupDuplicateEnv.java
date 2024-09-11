@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// 리스트 10.10 상황 관련 코드의 중복을 제거한 예
+// 리스트 10.11 각 테스트 메서드가 자신에 맞게 상황을 설정하는 코드
 public class NotSetupDuplicateEnv {
 
     private ChangeUserService changeService;
