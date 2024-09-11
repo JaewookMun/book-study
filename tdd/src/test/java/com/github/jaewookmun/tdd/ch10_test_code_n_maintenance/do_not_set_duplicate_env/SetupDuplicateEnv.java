@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // 리스트 10.10 상황 관련 코드의 중복을 제거한 예
-public class NotSetupDuplicateEnv {
+public class SetupDuplicateEnv {
 
     private ChangeUserService changeService;
     private UserRepository memoryRepository = new MemoryUserRepository();
@@ -14,33 +14,28 @@ public class NotSetupDuplicateEnv {
     @BeforeEach
     void setUp() {
         changeService = new ChangeUserService(memoryRepository);
+        memoryRepository.save(
+                new User("id", "name", "pw", new Address("서울", "북부"))
+        );
     }
 
     @Test
     void noUser() {
         assertThrows(UserNotFoundException.class,
-                () -> changeService.changeAddress("id", new Address("서울", "남부")));
+                () -> changeService.changeAddress("id2", new Address("서울", "남부")));
     }
 
     @Test
     void changeAddress() {
-        memoryRepository.save(
-                new User("id", "name", "pw", new Address("서울", "북부"))
-        );
-        
-        changeService.changeAddress("id", new Address("경기", "남부"));
+        changeService.changeAddress("id", new Address("서울", "남부"));
 
         User user = memoryRepository.findById("id");
-        assertEquals("경기", user.getAddress().getCity());
+        assertEquals("서울", user.getAddress().getCity());
     }
 
     @Test
     void changePw() {
-        memoryRepository.save(
-                new User("id", "name", "oldpw", new Address("서울", "북부"))
-        );
-
-        changeService.changePw("id", "oldpw", "newpw");
+        changeService.changePw("id", "pw", "newpw");
 
         User user = memoryRepository.findById("id");
         assertTrue(user.matchPassword("newpw"));
