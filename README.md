@@ -1,5 +1,7 @@
 # BOOK STUDY
 
+- [/design-patterns](https://github.com/JaewookMun/book-study/tree/main/design-patterns)
+  : 헤드 퍼스트 디자인 패턴
 
 - [/modern](https://github.com/JaewookMun/book-study/tree/main/modern)
   : 모던 자바 인 액션 (라울 게이브리얼 우르마, 마리오푸스코, 앨런마이크)
